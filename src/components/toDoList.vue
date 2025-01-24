@@ -5,57 +5,61 @@
     </h1>
     <ul>
       <template v-for="todo in todos" :key="todo.id">
-        <li v-if="!todo.completed" style="text-decoration: underline;">
+        <li :class="{ 'completed': todo.completed }">
           <span>
             {{ todo.text }}
           </span>
         </li>
-        <li v-else-if="todo.completed">
-          <span>
-            {{ todo.text }}
-          </span>
-        </li>
+        <button @click="$emit('deleteItem',todo.id)">Remove</button>
       </template>
     </ul>
+    </div>
+    <div>
     <input class="inputClass"
-           type="text"
-            v-model="newTask"
-            placeholder="add new task"/>
-    <button @click="addTask">Add</button>
+      type="text"
+      v-model="newItem"
+      placeholder="add new item"
+    />
+    <button @click="addItem">Add</button>
   </div>
 </template>
 
 <script setup>
-import { ref,onMounted, defineProps } from 'vue'
+import { ref, defineProps,defineEmits} from 'vue'
 
 defineProps({
   title: String,
+  todos: Array
 })
+ const emit = defineEmits([
+  'deleteItem',
+  'addItem',
+  'clickItem'
+])
 
-const todos=ref([]);
-  const newTask=ref('');
+const newItem=ref('');
 
-  const fetchTodos= ()=>{
-    todos.value=[
-        {id:1,text:"Buy groceries",completed:true},
-        {id:2, text:"To go for a walk", completed:true},
-        {id:3, text:"Read a book", completed:false}
-    ]
-  };
-  onMounted(()=>{
-    fetchTodos();
-  });
-  const addTask=()=>{
+const addItem=()=>{
+  if(newItem.value!=="") {
+    emit('add-item',newItem.value);
+  }
+
+  newItem.value="";
+};
+
+
+ // onMounted(()=>{
+    //fetchTodos();
+  //});
+
+ /* const addItem=()=>{
     todos.value.push ({
         id:todos.value.length + 1,
-        text:newTask.value,
+        text:newItem.value,
         completed:false
     });
-    newTask.value="";
-  };
-  //const removeTask=(id)=>{
-  //todos.value=todos.value.filter((todo=>todo.id!==id))
-  //}
+    newItem.value="";
+  };*/
 
 // export default {
 //   name:"toDoList",
@@ -90,6 +94,9 @@ const todos=ref([]);
 </script>
 
 <style>
+.completed {
+  text-decoration: underline;
+}
 ul li {
   border: 1px solid red;
   padding: 10px;
@@ -100,10 +107,10 @@ ul li {
   margin-left: 50px;
 }
 button {
-  background-color: bisque;
-  width: 80px;
-  height: 40px;
-  border: 1px solid black;
+  background-color: rgb(170, 164, 155);
+  width: 70px;
+  height: 30px;
+  border: 1px solid rgb(51, 50, 50);
   margin-left: 10px;
 }
 </style>

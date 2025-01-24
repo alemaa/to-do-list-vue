@@ -29,13 +29,16 @@ import { ref, defineProps,defineEmits} from 'vue'
 
 defineProps({
   title: String,
-  todos: Array
+  todos: Array,
+  count:Number
 })
  const emit = defineEmits([
   'deleteItem',
   'addItem',
   'clickItem'
 ])
+
+
 
 const newItem=ref('');
 
@@ -108,7 +111,7 @@ ul li {
 }
 button {
   background-color: rgb(170, 164, 155);
-  width: 70px;
+  width: 80px;
   height: 30px;
   border: 1px solid rgb(51, 50, 50);
   margin-left: 10px;

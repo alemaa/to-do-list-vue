@@ -5,13 +5,20 @@
 :todos="todos"
 @delete-item="deleteItem"
 @add-item="addItem"/>
+<AppCounter
+@increment="increment"
+@decrement="decrement">
+</AppCounter>
+<WatcherTask></WatcherTask>
 </div>
 </template>
 
 <script setup>
 
+import AppCounter from './components/AppCounter.vue';
 import ToDoList from './components/toDoList.vue';
 import { ref}from 'vue';
+import WatcherTask from './components/watcherTask.vue';
 
 /*export default {
   name:"App",

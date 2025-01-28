@@ -10,7 +10,7 @@
             {{ todo.text }}
           </span>
         </li>
-        <button @click="$emit('deleteItem',todo.id)">Remove</button>
+        <button @click="$emit('removeTodos',todo.id)">Remove</button>
       </template>
     </ul>
     </div>
@@ -25,31 +25,30 @@
 </template>
 
 <script setup>
-import { ref, defineProps,defineEmits} from 'vue'
+import { computed,defineEmits,defineProps,ref} from 'vue'
+import store from '../store';
+const todos=computed(()=>store.getters.todos);
 
 defineProps({
   title: String,
   todos: Array,
   count:Number
 })
- const emit = defineEmits([
-  'deleteItem',
-  'addItem',
-  'clickItem'
+
+defineEmits([
+  'removeTodos',
+  'addItem'
 ])
-
-
-
 const newItem=ref('');
+
 
 const addItem=()=>{
   if(newItem.value!=="") {
-    emit('add-item',newItem.value);
+   store.dispatch('addItem',newItem.value)
   }
 
   newItem.value="";
 };
-
 
  // onMounted(()=>{
     //fetchTodos();
